@@ -1,0 +1,217 @@
+pip install beautifulsoup4
+
+from bs4 import BeautifulSoup
+
+ 
+# # HTML Document
+# HTML_DOC = """
+  
+ 
+  
+#             """
+  
+# # Function to remove tags
+# def remove_tags(html):
+  
+#     # parse html content
+#     soup = BeautifulSoup(html, "html.parser")
+  
+#     for data in soup(['style', 'script']):
+#         # Remove tags
+#         data.decompose()
+  
+#     # return data by retrieving the tag content
+#     return ' '.join(soup.stripped_strings)
+  
+  
+# # Print the extracted data
+# print(remove_tags(HTML_DOC))
+
+
+
+text=remove_tags(HTML_DOC) 
+text=text.split()
+# turn string to list
+
+# clean basic data, text.index('操作'))=>find index
+del text[0:86]
+for i in text:
+    if i=='共':
+        del text[text.index(i):] 
+
+# turn list to string 
+text=' '.join(text)
+text=text.replace('/','') 
+text=text.replace('鋼鐵新聞','') 
+text=text.replace('編輯','')
+text=text.split()
+print(text)
+
+
+def is_contain_chinese(check_str):
+    for ch in check_str:
+        if u'\u4e00' <= ch <= u'\u9fff':
+            return True
+    return False
+    
+    
+    
+ chinese=[]
+for i in text:
+    if is_contain_chinese(i):
+        chinese.append(i)
+        
+chinese=' '.join(chinese)
+
+chinese=chinese.replace(' ','')
+
+chinese=chinese.replace('國際新聞',',國際新聞,')
+chinese=chinese.replace('台灣新聞',',台灣新聞,')
+chinese=chinese.replace('大陸新聞',',大陸新聞,')
+chinese=chinese.replace('產經新聞',',產經新聞,')
+ 
+ 
+chinese=chinese.split(',')
+del chinese[0]
+print(chinese)
+print(len(chinese))
+
+
+a=0
+type_=[]
+title_=[]
+for i in chinese:
+    if a==0 or a%2==0:
+        type_.append(i)
+    else:
+        title_.append(i)
+    a+=1
+            
+print(type_)
+print(title_)
+
+print(len(type_))
+print(len(title_))
+
+
+time_click=[]
+for i in text:
+    if not is_contain_chinese(i):
+        time_click.append(i)
+print(time_click)
+print(len(time_click))
+
+
+a=0
+time_=[]
+click_=[]
+for i in time_click:
+    if a==0 or a%2==0:
+        time_.append(i)
+    else:
+        click_.append(int(i))
+    a+=1
+            
+print(time_)
+print(click_)
+
+print(len(time_))
+print(len(click_))
+
+
+# #創建一個file把list用string方式放進去 
+# type_
+# title_
+# time_
+# click_
+
+# with open("1月type_new2.txt", "w") as f:
+#     for s in type_:
+#         f.write(str(s) +"\n")
+# with open("1月title_new2.txt", "w") as f:
+#     for s in title_:
+#         f.write(str(s) +"\n")
+# with open("1月time_new2.txt", "w") as f:
+#     for s in time_:
+#         f.write(str(s) +"\n")
+# with open("1月click_new2.txt", "w") as f:
+#     for s in click_:
+#         f.write(str(s) +"\n")
+
+
+# 打開已知的file 寫入string
+# Open a file
+
+# type_
+# title_
+# time_
+# click_
+
+fo = open("1月type_new2.txt", "a") # safer than w mode
+for s in type_:
+    fo.write(str(s)+"\n")
+
+# Close opend file
+fo.close()
+
+fo1 = open("1月title_new2.txt", "a") # safer than w mode
+for s in title_:
+    fo1.write(str(s)+"\n")
+
+# Close opend file
+fo1.close()
+
+fo2 = open("1月time_new2.txt", "a") # safer than w mode
+for s in time_:
+    fo2.write(str(s)+"\n")
+
+# Close opend file
+fo2.close()
+
+fo3 = open("1月click_new2.txt", "a") # safer than w mode
+for s in click_:
+    fo3.write(str(s)+"\n")
+
+# Close opend file
+fo3.close()
+
+
+#將剛剛存起來的string轉成list
+type_re=[]
+title_re=[]
+time_re=[]
+click_re=[]
+
+with open("1月type_new2.txt", "r") as f:
+  for line in f:
+    type_re.append(line.strip())
+print(type_re)
+print(len(type_re))
+with open("1月title_new2.txt", "r") as f:
+  for line in f:
+    title_re.append(line.strip())
+print(title_re)
+print(len(title_re))
+with open("1月time_new2.txt", "r") as f:
+  for line in f:
+    time_re.append(line.strip())
+print(time_re)
+print(len(time_re))
+with open("1月click_new2.txt", "r") as f:
+  for line in f:
+    click_re.append(line.strip())
+print(click_re)
+print(len(click_re))
+
+if len(click_re) != len(time_re) or len(title_re) !=len(type_re):
+    print('error')
+
+
+
+
+
+
+
+
+
+
